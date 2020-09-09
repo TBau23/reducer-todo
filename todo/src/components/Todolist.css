@@ -1,0 +1,8 @@
+.completed {
+    text-decoration: line-through;
+    color: white;
+}
+
+.item:hover {
+    cursor: pointer;
+}

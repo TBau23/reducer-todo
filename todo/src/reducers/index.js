@@ -1,5 +1,5 @@
-export const initialState = {
-    todos: [ {
+export const initialState = [
+    {
         item: 'Learn Redux',
         completed: false,
         id: Math.random()
@@ -10,7 +10,7 @@ export const initialState = {
         id: Math.random()
     }
 
-]}
+]
 // reducers are functions that take in two objects, state and action
 // and they reduce them down to a single object, which is the new state
 
@@ -25,11 +25,13 @@ export const todoReducer = (state, action) => {
                 completed: false,
                 id: Math.random()
             }
-            return {
-                ...state, 
-                todos: [...state.todos, newTodo]
-            }
-        
+            return [...state, newTodo]
+        case "TOGGLE_COMPLETED":
+            return state.map(item => (item.id === action.payload ?
+                 {...item, completed: !item.completed} : item))
+        case "CLEAR_COMPLETED": 
+            return state.filter(item => item.completed === false)
+                
     }
 }
 

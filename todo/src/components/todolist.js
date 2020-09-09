@@ -1,16 +1,17 @@
 import React, { useState, useReducer } from 'react';
 
 import { initialState, todoReducer } from '../reducers/index'
+import './Todolist.css';
 
 // dispatch takes in an action object, and calls in the reducer function
 // with state and that action
 
 const TodoList = () => {
     const [state, dispatch] = useReducer(todoReducer, initialState) // two args = reducer, initialState
-    // const [Todo, setTodos] = useState("")
     const [newTodoText, setNewTodoText] = useState('')
 
     const handleChanges = e => {
+        e.preventDefault()
         setNewTodoText(e.target.value)
     }
 
@@ -18,8 +19,8 @@ const TodoList = () => {
         e.preventDefault()
         dispatch({ type: 'ADD_TODO',
         payload: newTodoText})
-
     }
+
 
     return (
         <div>
@@ -31,11 +32,11 @@ const TodoList = () => {
             onChange={handleChanges}
             />
             <button onClick={handleSubmit}>Add ToDo</button>
-            <button>Clear Completed Tasks</button>
-            {state.todos.map(task => (
-                <div>
-                    <h4>{task.item}</h4>
-                </div>
+            <button onClick={() => dispatch({type: "CLEAR_COMPLETED"})}>Clear Completed Tasks</button>
+            {state.map(task => (
+                <h4 className= {task.completed ? 'completed item' : 'item'}
+                onClick={() => dispatch({type: "TOGGLE_COMPLETED", payload: task.id})}
+                >{task.item}</h4>
             ))}
         </div>
     )
